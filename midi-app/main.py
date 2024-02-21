@@ -4,10 +4,8 @@ from typing import Tuple
 
 from midiutil import MIDIFile
 
-from utils.music.constants import PROGRESSIONS, CHORDS, BASELINES, INSTRUMENTS
-from utils.music import Melody, Scale, Note
-from utils.constants import PATH_TO_OUTPUT
-from utils import open_output
+from util.constants import PROGRESSIONS, CHORDS, BASELINES, INSTRUMENTS
+from util import Melody, Scale, Note, PATH_TO_OUTPUT
 
 
 def generate_song(index=0, input_key=50, resolve=False, major_or_minor='minor',
@@ -257,7 +255,6 @@ def create_section_structure(min_melodies, max_melodies, dup):
     return section_structure
 
 
-@open_output
 def write_song() -> None:
     """Generates a song using the rule-based system."""
 
@@ -265,7 +262,7 @@ def write_song() -> None:
     chord_track = 1
     melody_track = 0
     bass_instrument = random.choice([
-        'Acoustic Grand Piano', 'Celesta'
+        'Acoustic Grand Piano', 'Bright Acoustic Piano'
     ])
     melody_instrument = random.choice([
         'Acoustic Grand Piano', 'Bright Acoustic Piano',
