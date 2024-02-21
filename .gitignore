@@ -1,2 +1,3 @@
 midi-app/venv
 midi-app/out/out.mid
+__pycache__/
