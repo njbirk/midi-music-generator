@@ -77,8 +77,7 @@ class Scale:
         for any integer i. The note pitches are relative to the first 
         note in the scale. Durations and positions are uninitialized. 
         """
-        octave : int = mode_pitch // MODE_LEN
-        chroma_pitch : int = MODE_PITCHES[self.__mode][mode_pitch % MODE_LEN] + octave * CHROMA_LEN
+        chroma_pitch : int = MODE_PITCHES[self.__mode][mode_pitch % MODE_LEN] + (mode_pitch // MODE_LEN) * CHROMA_LEN
         return Note(pitch=chroma_pitch)
     
     
