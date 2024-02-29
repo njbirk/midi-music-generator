@@ -6,7 +6,12 @@ def generate_midi():
     
     # Create simple melody for testing purposes. 
     melody : Melody = Melody()
-    melody.generate(Scale(Mode.Ionian))
+    melody.generate(
+        scale=Scale(Mode.Aeolian),
+        length=4,
+        epsilon=.5,
+        alignment=1
+    )
     
     # Generate MIDI file
     handler = OutputHandler()
