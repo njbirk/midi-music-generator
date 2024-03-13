@@ -45,12 +45,12 @@ class OutputHandler:
         self.__file.addTempo(0, 0, tempo)
         
             
-    def write(self) -> None:
+    def write(self, filename : str) -> None:
         """Function to perform the final step of writing to a MIDI file.
         Also converts to MP3. 
         """
         midi_path = 'out/out.mid'
-        mp3_path = 'out/out.wav'
+        mp3_path = 'out/' + filename + '.wav'
         with open(midi_path, 'wb') as output_file:
             self.__file.writeFile(output_file)
 
