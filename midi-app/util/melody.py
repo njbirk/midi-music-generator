@@ -74,7 +74,7 @@ class Melody:
     """
     
     
-    def __init__(self, p_range : tuple[int, int] = (-3, 7), d_range : tuple[int, int] = (-2, 1)) -> None:
+    def __init__(self, p_range : 'tuple[int, int]' = (-3, 7), d_range : 'tuple[int, int]' = (-2, 1)) -> None:
         """Initializes a new melody. Initializes each current random weights row to 
         the initial random weights. 
         

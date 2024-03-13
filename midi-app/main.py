@@ -2,7 +2,7 @@ from util.melody import Melody
 from util.scale import Mode, Scale
 from out import OutputHandler
 
-def generate_midi():
+def generate_midi(filename : str = "out"):
     
     # Create simple melody for testing purposes. 
     melody : Melody = Melody()
@@ -13,10 +13,10 @@ def generate_midi():
         alignment=1
     )
     
-    # Generate MIDI file
+    # Generate MIDI file and output MP3
     handler = OutputHandler()
     handler.add_melody(melody)
-    handler.write()
+    handler.write(filename)
 
 
 if __name__ == '__main__':
