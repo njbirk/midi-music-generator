@@ -13,7 +13,7 @@ def generate_midi():
         alignment=1
     )
     
-    # Generate MIDI file
+    # Generate MIDI file and output MP3
     handler = OutputHandler()
     handler.add_melody(melody)
     handler.write()

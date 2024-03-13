@@ -1,10 +1,18 @@
 from midiutil import MIDIFile
 from util.melody import Melody
 from util.note import Note
+from util.note import INSTRUMENTS
+from midi2audio import FluidSynth
 
 class OutputHandler:
     """Class to wrap all the MIDI output code. 
     """
+
+
+    __CHANNEL : int = 0
+    """The MIDI channel to output to
+    """
+
     
     __file : MIDIFile
     """The output file object.
@@ -31,17 +39,23 @@ class OutputHandler:
         self.__NC = 0
         self.__key = key
         
-        self.__file = MIDIFile(1)
+        self.__file = MIDIFile(numTracks=1)
         self.__file.addTrackName(0, 0, 'Melody')
-        self.__file.addProgramChange(0, 0, 0, 0)
+        self.__file.addProgramChange(0, self.__CHANNEL, 0, INSTRUMENTS['Acoustic Grand Piano'])
         self.__file.addTempo(0, 0, tempo)
         
             
     def write(self) -> None:
         """Function to perform the final step of writing to a MIDI file.
+        Also converts to MP3. 
         """
-        with open('out/out.mid', 'wb') as output_file:
+        midi_path = 'out/out.mid'
+        mp3_path = 'out/out.wav'
+        with open(midi_path, 'wb') as output_file:
             self.__file.writeFile(output_file)
+
+        # Convert MIDI to WAV
+        FluidSynth(sound_font='font.sf2').midi_to_audio(midi_path, mp3_path)
             
     
     def add_melody(self, melody : Melody) -> None:
@@ -62,7 +76,7 @@ class OutputHandler:
 
             self.__file.addNote(
                 track=0,
-                channel=0,
+                channel=self.__CHANNEL,
                 volume=75,
                 pitch=global_pitch,
                 time=self.__NC + note.position,

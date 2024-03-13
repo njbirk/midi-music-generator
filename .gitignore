@@ -1,4 +1,6 @@
 midi-app/venv
 midi-app/out/out.mid
+midi-app/out/out.wav
+midi-app/font.sf2
 react-app/env/
 __pycache__/

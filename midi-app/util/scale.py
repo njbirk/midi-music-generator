@@ -29,14 +29,14 @@ starting at position i in modal space.
 """
     
 
-class ModePitches(TypedDict):
+class ModePitches_map(TypedDict):
     """A class to correctly type the mode pitches dictionary. 
     """
     mode : Mode
     offsets : List[int]
     
 
-MODE_PITCHES : ModePitches = {
+MODE_PITCHES : ModePitches_map = {
     Mode.Lydian : [0, 2, 4, 6, 7, 9, 11, 12],
     Mode.Ionian : [0, 2, 4, 5, 7, 9, 11, 12],
     Mode.Mixolydian : [0, 2, 4, 5, 7, 9, 10, 12],
@@ -48,6 +48,28 @@ MODE_PITCHES : ModePitches = {
 """A dictionary that maps a mode to its pitch offsets. 
 Accessing the ith offset will convert pitch i
 in modal space to a pitch in chromatic space. 
+"""
+
+
+class DBQ_map(TypedDict):
+    """A class to correctly type the mode pitches dictionary. 
+    """
+    mode : Mode
+    quotient : int
+    
+
+MODE_DBQ : DBQ_map = {
+    Mode.Lydian : 3,
+    Mode.Ionian : 2,
+    Mode.Mixolydian : 1,
+    Mode.Dorian : 0,
+    Mode.Aeolian : -1,
+    Mode.Phrygian : -2,
+    Mode.Locrian : -3
+}
+"""A dictionary that maps a mode to its dorian brightness
+quotient. >0 is 'major' sounding and <=0 is 'minor' sounding. 
+Adjaent quotients also signify adjacency on the circle of fifths. 
 """
 
 
