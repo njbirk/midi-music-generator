@@ -1,6 +1,6 @@
-from util.melody import Melody
-from util.scale import Mode, Scale
-from out import OutputHandler
+from .util.melody import Melody
+from .util.scale import Mode, Scale
+from .out import OutputHandler
 
 def generate_midi(filename : str = "out"):
     
