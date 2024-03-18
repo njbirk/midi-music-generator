@@ -1,0 +1,4 @@
+[console_scripts]
+midi2audio = midi2audio:main
+midiplay = midi2audio:main_play
+

@@ -16,3 +16,9 @@
 
 - To send an api request from the command line, run `curl -X POST http://localhost:5000/get-song-file/`
   - You can add an optional argument to the end of the url to specify a song name
+
+### Running the Webpage
+
+1. Ensure node is installed, then go to react-app directory and run `npm i vite` and `npm install grommet grommet-icons styled-components --save`
+
+2. Then, run `npm run dev` to get a url to the webpage
