@@ -5,7 +5,9 @@ from util.scale import MODE_LEN
 import numpy as np
 import random
 
+
 class Progression:
     """Class to generate and store chord progressions. 
     """
     pass
+

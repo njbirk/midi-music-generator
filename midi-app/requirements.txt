@@ -1,5 +1,4 @@
 midi2audio==0.1.1
 MIDIUtil==1.2.1
 numpy==1.24.4
-pkg_resources==0.0.0
 typing_extensions==4.10.0
