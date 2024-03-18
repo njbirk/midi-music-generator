@@ -1,5 +1,5 @@
 from enum import Enum
-from util.note import Note
+from .note import Note
 from typing import List, TypedDict
 
 

@@ -1,6 +1,5 @@
-midi-app/venv
 *.mid
 *.wav
 *.sf2
-react-app/env/
+env/
 __pycache__/

@@ -1,7 +1,8 @@
+import os
 from midiutil import MIDIFile
-from util.melody import Melody
-from util.note import Note
-from util.note import INSTRUMENTS
+from .util.melody import Melody
+from .util.note import Note
+from .util.note import INSTRUMENTS
 from midi2audio import FluidSynth
 
 class OutputHandler:
@@ -49,8 +50,12 @@ class OutputHandler:
         """Function to perform the final step of writing to a MIDI file.
         Also converts to MP3. 
         """
-        midi_path = 'out/out.mid'
-        mp3_path = 'out/' + filename + '.wav'
+        out_dir = 'out'
+        midi_path = os.path.join(out_dir, 'out.mid')
+        mp3_path = os.path.join(out_dir, filename + '.wav')
+        
+        # Ensure the output directory exists
+        os.makedirs(out_dir, exist_ok=True)
         with open(midi_path, 'wb') as output_file:
             self.__file.writeFile(output_file)
 
