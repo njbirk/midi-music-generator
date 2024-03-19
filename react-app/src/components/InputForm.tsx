@@ -15,6 +15,14 @@ const InputForm = () => {
     setSongName(event.target.value);
   };
 
+  function API_call() {
+    fetch('/get-song-file/?title=' + songName, { credentials: "same-origin"})
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+      })
+      .catch((error) => console.log(error));
+  }
+
   return (
     <Card height="medium" width="medium" background="dark-3">
       <CardHeader margin="xsmall" alignSelf="center">
@@ -26,7 +34,7 @@ const InputForm = () => {
           value={songName}
           onChange={updateSongName}
         />
-        <Button primary margin="small" label="Go!" />
+        <Button primary margin="small" label="Go!" onClick={API_call}/>
       </CardBody>
     </Card>
   );
