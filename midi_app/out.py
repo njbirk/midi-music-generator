@@ -42,7 +42,7 @@ class OutputHandler:
         
         self.__file = MIDIFile(numTracks=1)
         self.__file.addTrackName(0, 0, 'Melody')
-        self.__file.addProgramChange(0, self.__CHANNEL, 0, INSTRUMENTS['Acoustic Grand Piano'])
+        self.__file.addProgramChange(0, self.__CHANNEL, 0, INSTRUMENTS['Harpsichord'])
         self.__file.addTempo(0, 0, tempo)
         
             
@@ -82,7 +82,7 @@ class OutputHandler:
             self.__file.addNote(
                 track=0,
                 channel=self.__CHANNEL,
-                volume=75,
+                volume=100,
                 pitch=global_pitch,
                 time=self.__NC + note.position,
                 duration=note.duration

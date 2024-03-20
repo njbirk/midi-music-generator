@@ -18,13 +18,13 @@ def get_midi():
 
         generate_midi(song_name) 
 
-        # @flask.after_this_request
-        # def remove_file(response):
-        #     try:
-        #         os.remove(os.path.join(directory, f"{song_name}.wav"))
-        #     except Exception as error:
-        #         app.logger.error("Error removing file: %s", error)
-        #     return response
+        @flask.after_this_request
+        def remove_file(response):
+            try:
+                os.remove(os.path.join(directory, f"{song_name}.wav"))
+            except Exception as error:
+                app.logger.error("Error removing file: %s", error)
+            return response
 
         # Assuming your file creation logic is here and it saves the file in `directory`
         return flask.send_from_directory(directory, f'{song_name}.wav', as_attachment=True)
