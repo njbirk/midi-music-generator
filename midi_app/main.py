@@ -15,7 +15,8 @@ def generate_midi(filename : str = "out"):
     
     # Generate MIDI file and output MP3
     handler = OutputHandler()
-    handler.add_melody(melody)
+    for _ in range(10):
+        handler.add_melody(melody)
     handler.write(filename)
 
 
