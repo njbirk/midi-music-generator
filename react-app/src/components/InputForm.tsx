@@ -16,11 +16,26 @@ const InputForm = () => {
   };
 
   function API_call() {
-    fetch('/get-song-file/?title=' + songName, { credentials: "same-origin"})
+    const encodedSongName = encodeURIComponent(songName);
+    fetch(`http://127.0.0.1:5000/get-song-file/?title=${encodedSongName}`, {
+      method: "POST",
+      // Other settings like 'credentials' go here if needed
+    })
       .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
+        if (!response.ok) throw new Error(response.statusText);
+        return response.blob();
       })
-      .catch((error) => console.log(error));
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${songName}.wav`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      })
+      .catch((error) => console.error(error));
   }
 
   return (
@@ -34,7 +49,7 @@ const InputForm = () => {
           value={songName}
           onChange={updateSongName}
         />
-        <Button primary margin="small" label="Go!" onClick={API_call}/>
+        <Button primary margin="small" label="Go!" onClick={API_call} />
       </CardBody>
     </Card>
   );
