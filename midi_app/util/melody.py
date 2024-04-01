@@ -39,6 +39,11 @@ class Melody:
     """Total length of the melody in beats.
     """
     
+    
+    __generated : List[int]
+    """A list of tuples (pitch, duration) that represent the generated melody."""
+    
+    
     __scale : Scale
     """The scale the melody will be placed in.
     """
@@ -71,6 +76,11 @@ class Melody:
     __epsilon_pitch : float
     __epsilon_duration : float
     """Model parameters that determine the strength of weight updates. 
+    """
+    
+    __alignment : float
+    """If defined, determines the minimum splitting of length to align notes to. Higher values
+    will result in more syncopated melodies. The min split value will be 2 ^ -alignment. 
     """
     
     
@@ -106,33 +116,41 @@ class Melody:
         for note in self.notes:
             out += f'{note.__repr__()}\n'
         return out
-    
-    
-    def generate(self, scale : Scale, length : int = 4, epsilon : float = 10, alignment : Optional[int] = 1) -> None:
-        """Generates the melody from scratch, populating the notes list.
+          
+            
+    def generate(self, length : int = 4, epsilon : float = 10, 
+                    alignment : Optional[int] = 1) -> None:
+        """Generates the melody weights and notes.
         
         Args:
-            scale: The scale to generate the melody in.
             length: The total length of the melody in beats. 
             epsilon: Parameter that determines how likely the melody repeats itself. 
             alignment: If defined, determines the minimum splitting of length to align notes to. Higher values
                 will result in more syncopated melodies. The min split value will be 2 ^ -alignment. 
         """
-        self.__scale = scale
         self.length = length
         self.__epsilon = epsilon
+        self.__alignment = alignment
         self.__init_epsilon()
+        self.__build_notes(generate_weights=True)
+            
+            
+    def __build_notes(self, generate_weights : bool):
+        """Private function to generate notes from existing weights. 
         
+        Args:
+            generate_weights: If true, will apply weight updates to the model.
+        """   
         # Generate pitches and durations as column indices
-        generated : List[int] = []
+        self.__generated : List[int] = []
         prev_pitch : int = 0
         prev_duration : float = 0
         pos : float = 0.0
         
         while pos < self.length:
             generated_pitch = self.__generate_pitch(prev_pitch)
-            generated_duration = self.__generate_duration(prev_duration, pos, alignment)
-            generated.append((generated_pitch, generated_duration))
+            generated_duration = self.__generate_duration(prev_duration, pos, self.__alignment)
+            self.__generated.append((generated_pitch, generated_duration))
             self.__update_model_weights(
                 prev_pitch=prev_pitch,
                 prev_duration=prev_duration,
@@ -142,20 +160,37 @@ class Melody:
             
             pos += self.__model_duration_range[generated_duration]
             prev_pitch = generated_pitch
-            prev_duration = generated_duration
+            prev_duration = generated_duration      
+            
+            
+    def variate(self) -> None:
+        """Using previous weights, generate new notes. 
+        """  
+        self.__build_notes(generate_weights=False)
+            
+            
+    def populate_notes(self, scale : Scale, pitch_offset : int, pos_offset : int) -> None:
+        """Populated the notes list with the generated melody.
+        
+        Args:
+            scale: The scale to generate the melody in.
+            pitch_offset: The chromatic offset to apply to the generated pitches.
+            pos_offset: The absolute position offset to apply to the generated notes.
+        """
+        self.__scale = scale
         
         # Populate notes from the given pitches and durations
-        # Performance improvement (if needed) - combine this into the above while loop. 
         pos : float = 0.0
         self.notes = []
         
-        for col, duration_index in generated:
+        for col, duration_index in self.__generated:
             duration = self.__model_duration_range[duration_index]
             # using the min() function to trim to desired length. 
             if self.length - pos > 0:
-                self.notes.append(scale[self.__model_pitch_range[col]].init(min(
+                self.notes.append(Note(scale[self.__model_pitch_range[col]] + pitch_offset)
+                .init(min(
                     duration, self.length - pos
-                ), pos))
+                ), pos + pos_offset))
             pos += duration
     
     
