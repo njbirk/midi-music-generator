@@ -169,7 +169,7 @@ class Melody:
         self.__build_notes(generate_weights=False)
             
             
-    def populate_notes(self, scale : Scale, pitch_offset : int, pos_offset : int) -> None:
+    def populate_notes(self, scale : Scale, pitch_offset : int, pos_offset : float) -> None:
         """Populated the notes list with the generated melody.
         
         Args:
@@ -187,10 +187,10 @@ class Melody:
             duration = self.__model_duration_range[duration_index]
             # using the min() function to trim to desired length. 
             if self.length - pos > 0:
-                self.notes.append(Note(scale[self.__model_pitch_range[col]] + pitch_offset)
-                .init(min(
-                    duration, self.length - pos
-                ), pos + pos_offset))
+                self.notes.append(Note(
+                    pitch=scale[self.__model_pitch_range[col]] + pitch_offset, 
+                    duration=min(duration, self.length - pos), 
+                    position=pos + pos_offset))
             pos += duration
     
     

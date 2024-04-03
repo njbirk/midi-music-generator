@@ -29,21 +29,6 @@ class Note:
         self.position = position
         
         
-    def init(self, duration : float = 0.0, position : float = 0.0) -> Self:
-        """Function to finish initializing a note with only a pitch. 
-
-        Args:
-            duration: The duration of the note in beats. 
-            position: The relative time the note should start in beats.
-            
-        Returns:
-            self
-        """
-        self.duration = duration
-        self.position = position
-        return self
-        
-        
     def __repr__(self) -> str:
         """Function for printing representation. 
 
