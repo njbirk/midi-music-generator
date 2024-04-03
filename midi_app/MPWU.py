@@ -2,7 +2,7 @@ import random
 
 def algoMPWU():
     # e: reweighting factor
-    e = 0.05
+    e = 0
     # num: max number of possible melodies/songs
     num = 500
     # melody will be the array of all possible melodies
