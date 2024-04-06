@@ -15,8 +15,15 @@ def get_midi():
     try:
         # get song name to use as input to generator + output file name
         song_name = flask.request.args.get("title", default='song', type=str)
+        context = request.get_json()
 
-        generate_midi(song_name) 
+        generate_midi(song_name, [data.get('Speed'),
+        data.get('Tone'),
+        data.get('Volume'),
+        data.get('Instrument'),
+        data.get('Repeatability'),
+        data.get('Structuredness'),
+        ]); 
 
         @flask.after_this_request
         def remove_file(response):

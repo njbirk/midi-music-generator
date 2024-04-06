@@ -20,6 +20,10 @@ const InputForm = () => {
     const encodedSongName = encodeURIComponent(songName);
     fetch(`http://127.0.0.1:5000/get-song-file/?title=${encodedSongName}`, {
       method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(selected)
       // Other settings like 'credentials' go here if needed
     })
       .then((response) => {
