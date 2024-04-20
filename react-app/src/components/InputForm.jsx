@@ -16,33 +16,6 @@ const InputForm = () => {
     setSongName(event.target.value);
   };
 
-  function API_call() {
-    const encodedSongName = encodeURIComponent(songName);
-    fetch(`http://127.0.0.1:5000/get-song-file/?title=${encodedSongName}`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(selected)
-      // Other settings like 'credentials' go here if needed
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.blob();
-      })
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${songName}.wav`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-      })
-      .catch((error) => console.error(error));
-  }
-
   const dropdownData = {
     Speed: [
       { label: "fast", value: "fast" },
@@ -96,6 +69,34 @@ const InputForm = () => {
       [name]: event.target.value,
     }));
   };
+
+  function API_call() {
+    const encodedSongName = encodeURIComponent(songName);
+    const requestBody = { ...selected };
+
+    fetch(`http://127.0.0.1:5000/get-song-file/?title=${encodedSongName}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${songName}.wav`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      })
+      .catch((error) => console.error(error));
+  }
 
   return (
     <Card height="medium" width="medium" background="dark-3">
