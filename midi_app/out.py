@@ -26,12 +26,16 @@ class OutputHandler:
     song we are writting in beats. 
     """
     
-    
     __key : int
     """The starting song pitch. 
     """
+
+    __volume : int
+    """The volume of each note.
+    """
     
-    def __init__(self, tempo : int = 110, key : int = 50, instrument : str = 'Harpsichord') -> None:
+    def __init__(self, tempo : int = 110, key : int = 50, instrument : str = 'Harpsichord',
+                 volume : int = 100) -> None:
         """Initialize the output handler.
         
         Args:
@@ -41,6 +45,7 @@ class OutputHandler:
         
         self.__NC = 0
         self.__key = key
+        self.__volume = volume
         
         self.__file = MIDIFile(numTracks=1)
         self.__file.addTrackName(0, 0, 'Melody')
@@ -85,7 +90,7 @@ class OutputHandler:
             self.__file.addNote(
                 track=0,
                 channel=self.__CHANNEL,
-                volume=100,
+                volume=self.__volume,
                 pitch=global_pitch,
                 time=self.__NC + note.position,
                 duration=note.duration
