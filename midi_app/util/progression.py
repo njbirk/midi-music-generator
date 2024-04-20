@@ -119,10 +119,9 @@ class Progression:
         for dbq in self.__progression_data:
             
             # Generate melodies, get the pitch offsets from the DBQ using an ionian scale
-            ionian : Scale = Scale(Mode.Ionian)
             melody.populate_notes(
                 scale=Scale(dbq_to_mode_complex(dbq)), 
-                pitch_offset=ionian[MODE_OFFSETS[dbq]],
+                pitch_offset=Scale(Mode.Ionian)[MODE_OFFSETS[dbq]],
                 pos_offset=last_pos
             )
             last_pos += melody.length
