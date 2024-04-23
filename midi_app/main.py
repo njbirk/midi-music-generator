@@ -24,6 +24,7 @@ volume_map = {
 instrument_map = {
     "piano": "Acoustic Grand Piano",
     "electric piano": "Electric Grand Piano",
+    "bass": "Acoustic Bass"
 }
 
 def repeatability_map(repeatability : str) -> float:
@@ -31,11 +32,10 @@ def repeatability_map(repeatability : str) -> float:
     return 50 * b ** (int(repeatability) - 10)
 
 def structuredness_map(structuredness : str) -> int:
-    b = 0.34
-    return np.floor(b * int(structuredness))
+    return int(structuredness) - 1
 
 def generate_midi(filename : str = "out", params : list = [
-    "medium", "happy", "medium", "piano", "5", "5"
+    "medium", "happy", "medium", "piano", "5", "1"
 ]):
 
     # Parse args
